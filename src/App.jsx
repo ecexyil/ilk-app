@@ -63,10 +63,34 @@ export default function App() {
     recipe != null &&
     savedRecipes.some(r => r.title === recipe.title && r.chef?.id === recipe.chef?.id)
 
+  const handleIngredientQuickStart = (ingredients) => {
+    setIngredients(ingredients)
+    setSelectedChef(null)
+    setScreen('chefs')
+  }
+
+  const handleChefQuickPick = (chef) => {
+    setSelectedChef(chef)
+    setIngredients([])
+    setScreen('ingredients')
+  }
+
+  const handleViewSaved = (savedRecipe) => {
+    setRecipe(savedRecipe)
+    setSelectedChef(savedRecipe.chef)
+    setScreen('recipe')
+  }
+
   return (
     <div className="app">
       {screen === 'welcome' && (
-        <WelcomeScreen onStart={() => setScreen('ingredients')} />
+        <WelcomeScreen
+          onStart={() => setScreen('ingredients')}
+          onIngredientQuickStart={handleIngredientQuickStart}
+          onChefQuickPick={handleChefQuickPick}
+          onViewSaved={handleViewSaved}
+          savedRecipes={savedRecipes}
+        />
       )}
 
       {screen === 'ingredients' && (

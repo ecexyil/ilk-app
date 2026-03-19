@@ -10,39 +10,39 @@ export default function RecipeScreen({
 
   return (
     <div className="screen recipe-screen">
-      {/* Chef header */}
-      <div className="recipe-header" style={{ background: chef.gradient }}>
-        <div className="recipe-header-inner">
-          <div className="recipe-chef-avatar">{chef.emoji}</div>
-          <div className="recipe-chef-info">
-            <div className="recipe-chef-name">{chef.name}</div>
-            <div className="recipe-chef-title">{chef.title}</div>
-          </div>
-          <button
-            className="save-btn"
-            onClick={onSave}
-            aria-label={isSaved ? 'Remove from saved' : 'Save recipe'}
-          >
-            {isSaved ? '❤️' : '🤍'}
-          </button>
+
+      {/* Clean top nav — no gradient, chef identity via dot + text */}
+      <div className="recipe-nav">
+        <button className="recipe-back-btn" onClick={onStartOver} aria-label="Start over">
+          ←
+        </button>
+        <div className="recipe-chef-credit">
+          <span className="recipe-chef-dot" style={{ background: chef.color }} />
+          <span className="recipe-chef-credit-text">
+            {chef.emoji} {chef.name}
+          </span>
         </div>
+        <button
+          className="recipe-save-btn"
+          onClick={onSave}
+          aria-label={isSaved ? 'Remove from saved' : 'Save recipe'}
+        >
+          {isSaved ? '❤️' : '🤍'}
+        </button>
       </div>
 
-      {/* Scrollable content */}
+      {/* Scrollable editorial content */}
       <div className="recipe-scroll">
 
-        {/* Title */}
+        {/* Title — large, confident */}
         <h1 className="recipe-title">{recipe.title}</h1>
 
-        {/* Chef intro quote */}
-        <blockquote
-          className="recipe-intro"
-          style={{ borderLeftColor: chef.color }}
-        >
-          {recipe.intro}
-        </blockquote>
+        {/* Chef quote — typographic treatment */}
+        <div className="recipe-quote">
+          <p className="recipe-quote-text">{recipe.intro}</p>
+        </div>
 
-        {/* Badges */}
+        {/* Meta */}
         <div className="recipe-badges">
           <div className="recipe-badge">
             <span>⏱</span>
@@ -60,10 +60,7 @@ export default function RecipeScreen({
           <div className="recipe-ingredient-list">
             {recipe.ingredients.map((ing, i) => (
               <div key={i} className="recipe-ingredient-item">
-                <span
-                  className="ingredient-dot"
-                  style={{ background: chef.color }}
-                />
+                <span className="ingredient-dot" style={{ background: chef.color }} />
                 <span>{ing}</span>
               </div>
             ))}
@@ -78,7 +75,7 @@ export default function RecipeScreen({
               <div key={i} className="recipe-step">
                 <div
                   className="step-number"
-                  style={{ background: chef.gradient, color: 'white' }}
+                  style={{ background: chef.color, color: 'white' }}
                 >
                   {i + 1}
                 </div>
@@ -99,11 +96,12 @@ export default function RecipeScreen({
         {/* Outro */}
         <div
           className="recipe-outro"
-          style={{ borderColor: `${chef.color}33`, background: `${chef.color}08` }}
+          style={{ borderColor: `${chef.color}28`, background: `${chef.color}06` }}
         >
           <span className="outro-emoji">{chef.emoji}</span>
           <p>{recipe.outro}</p>
         </div>
+
       </div>
 
       {/* Action bar */}
@@ -120,6 +118,7 @@ export default function RecipeScreen({
           ← Start Over
         </button>
       </div>
+
     </div>
   )
 }

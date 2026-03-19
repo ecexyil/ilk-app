@@ -3,40 +3,55 @@ import { chefs } from '../data/chefs.js'
 export default function ChefSelectScreen({ selectedChef, onSelectChef, onContinue, onBack }) {
   return (
     <div className="screen light-screen">
+
       <div className="screen-header">
-        <button className="back-btn" onClick={onBack} aria-label="Go back">
-          ←
-        </button>
+        <button className="back-btn" onClick={onBack} aria-label="Go back">←</button>
         <div className="screen-header-text">
-          <h2>Choose Your Chef</h2>
-          <p className="screen-subtitle">Who's cooking tonight?</p>
+          <h2>Your Chef Tonight</h2>
+          <p className="screen-subtitle">Pick the voice of your recipe</p>
         </div>
         <div className="step-pill">2 / 2</div>
       </div>
 
       <div className="scroll-content">
         <p className="chefs-intro">
-          Every ingredient shines brighter in the right hands. Pick your chef and we'll craft a recipe in their signature style.
+          Same ingredients, four completely different dishes. Choose who's cooking.
         </p>
 
-        <div className="chefs-grid">
+        <div className="chef-list">
           {chefs.map((chef) => {
             const isSelected = selectedChef?.id === chef.id
             return (
               <button
                 key={chef.id}
-                className={`chef-card ${isSelected ? 'chef-card--selected' : ''}`}
-                style={{ background: chef.gradient }}
+                className={`chef-row ${isSelected ? 'chef-row--selected' : ''}`}
                 onClick={() => onSelectChef(chef)}
               >
-                {isSelected && (
-                  <div className="chef-check">✓</div>
-                )}
-                <span className="chef-emoji">{chef.emoji}</span>
-                <div className="chef-info">
-                  <div className="chef-name">{chef.name}</div>
-                  <div className="chef-title">{chef.title}</div>
-                  <div className="chef-desc">{chef.description}</div>
+                {/* Colored left bar — expands on select to show emoji */}
+                <div
+                  className="chef-row-bar"
+                  style={{ background: chef.color }}
+                />
+                <span className="chef-row-emoji" aria-hidden="true">
+                  {chef.emoji}
+                </span>
+
+                {/* Content */}
+                <div className="chef-row-content">
+                  <span className="chef-content-emoji" aria-hidden="true">
+                    {chef.emoji}
+                  </span>
+                  <div className="chef-row-text">
+                    <div className="chef-row-name">{chef.name}</div>
+                    <div className="chef-row-title">{chef.title}</div>
+                    <div className="chef-row-desc">{chef.description}</div>
+                  </div>
+                  <div
+                    className="chef-row-indicator"
+                    style={isSelected ? { background: chef.color } : {}}
+                  >
+                    {isSelected ? '✓' : '→'}
+                  </div>
                 </div>
               </button>
             )
@@ -49,7 +64,10 @@ export default function ChefSelectScreen({ selectedChef, onSelectChef, onContinu
           className="btn-primary"
           style={
             selectedChef
-              ? { background: selectedChef.gradient, boxShadow: `0 8px 24px ${selectedChef.color}55` }
+              ? {
+                  background: selectedChef.color,
+                  boxShadow: `0 8px 24px ${selectedChef.color}55`,
+                }
               : {}
           }
           onClick={onContinue}
@@ -58,6 +76,7 @@ export default function ChefSelectScreen({ selectedChef, onSelectChef, onContinu
           {selectedChef ? `Cook with ${selectedChef.name} →` : 'Select a Chef'}
         </button>
       </div>
+
     </div>
   )
 }
